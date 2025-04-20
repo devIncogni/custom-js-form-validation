@@ -34,17 +34,19 @@ const formValidator = (() => {
   };
 
   const showError = (inputField, errorMsg = "Invalid") => {
-    let errorDiv = document.querySelector(`${inputField}+.error`);
+    let errorDiv = document.querySelector(`#${inputField.id}+.error`);
     errorDiv.className = "error show";
     errorDiv.textContent = errorMsg;
+    console.log("Error Shown");
   };
 
   const hideError = (inputField) => {
-    let errorDiv = document.querySelector(`${inputField}+.error`);
+    let errorDiv = document.querySelector(`#${inputField.id}+.error`);
     errorDiv.className = "error";
+    console.log("Error Hidden");
   };
 
-  const autoCheckValidity = (inputField) => {
+  const isInvalidInput = (inputField) => {
     let result = "Nothing assigned";
     switch (inputField.getAttribute("type")) {
       case "text":
@@ -65,13 +67,33 @@ const formValidator = (() => {
     return !result;
   };
 
-  return { autoCheckValidity, setInputInvalid, setInputValid, showError, hideError };
+  return {
+    isInvalidInput,
+    setInputInvalid,
+    setInputValid,
+    showError,
+    hideError,
+  };
 })();
 
 const initialiseInputs = (() => {
   let inputs = [...document.querySelectorAll("input")];
 
   inputs
-    .filter(formValidator.autoCheckValidity)
+    .filter(formValidator.isInvalidInput)
     .map(formValidator.setInputInvalid);
+
+  inputs.forEach((input) => {
+    input.addEventListener(`input`, (e) => {
+      if (!formValidator.isInvalidInput(input)) {
+        formValidator.setInputValid(input);
+        formValidator.hideError(input);
+      } else {
+        formValidator.setInputInvalid(input);
+        formValidator.showError(input, "invalid");
+      }
+    });
+  });
 })();
+
+const handleInputs = (() => {})();
