@@ -323,7 +323,7 @@ const formValidator = (() => {
   };
 })();
 
-const initialiseInputs = (() => {
+const handleInputs = (() => {
   let inputs = [...document.querySelectorAll("input")];
 
   inputs
@@ -344,4 +344,27 @@ const initialiseInputs = (() => {
   });
 })();
 
-const handleInputs = (() => {})();
+const handleForm = (() => {
+  const form = document.querySelector("form");
+  form.addEventListener(`submit`, (e) => {
+    const inputs = [...document.querySelectorAll("input")];
+    let allOk = true;
+    inputs.forEach((input) => {
+      if (!formValidator.isInvalidInput(input)) {
+        formValidator.setInputValid(input);
+        formValidator.hideError(input);
+      } else {
+        formValidator.setInputInvalid(input);
+        let errorMsg = formValidator.getErrorMsg(input);
+        formValidator.showError(input, errorMsg);
+        allOk = false;
+      }
+    });
+    if (allOk) {
+      alert("High Five");
+      form.reset();
+    } else {
+      e.preventDefault();
+    }
+  });
+})();

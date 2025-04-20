@@ -85,3 +85,25 @@ input:focus.invalid {
 .error.show {
     display: block;
 }
+
+button[type="submit"] {
+    padding: 0.15rem 0.25rem;
+    font-size: 1rem;
+
+    background-color: #33b249;
+    color: white;
+    border: 1px solid #33b249;
+    cursor: pointer;
+
+    transition: all 100ms linear;
+}
+
+button[type="submit"]:hover {
+    background-color: hsl(130, 55%, 40%);
+    border: 1px solid hsl(130, 55%, 40%);
+}
+
+button[type="submit"]:active {
+    background-color: hsl(130, 55%, 45%);
+    border: 1px solid hsl(130, 55%, 45%);
+}
