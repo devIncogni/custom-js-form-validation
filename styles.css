@@ -63,12 +63,12 @@ input:focus {
 
 }
 
-input:invalid {
+input.invalid {
     border-color: #900;
     background-color: #fdd;
 }
 
-input:focus:invalid {
+input:focus.invalid {
     outline: none;
 }
 
@@ -79,5 +79,9 @@ input:focus:invalid {
     padding: 0.15rem 0.25rem;
 
     font-size: 0.9rem;
+    display: none;
+}
 
+.error.show {
+    display: block;
 }

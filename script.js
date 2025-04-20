@@ -1,4 +1,4 @@
-const formValidator = (function () {
+const formValidator = (() => {
   const nameRegExp = /^[A-Za-z]/;
   const emailRegExp =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -25,9 +25,23 @@ const formValidator = (function () {
     return passRegExp.test(passInputField.value);
   };
 
-  const setValidityClass = (isValid, inputField, errField) => {
-    inputField.className = isValid ? "valid" : "invalid";
-    errField.className = isValid? "error show" : "error hide"
+  const setInputInvalid = (inputField) => {
+    inputField.className = "invalid";
+  };
+
+  const setInputValid = (inputField) => {
+    inputField.className = "";
+  };
+
+  const showError = (inputField, errorMsg = "Invalid") => {
+    let errorDiv = document.querySelector(`${inputField}+.error`);
+    errorDiv.className = "error show";
+    errorDiv.textContent = errorMsg;
+  };
+
+  const hideError = (inputField) => {
+    let errorDiv = document.querySelector(`${inputField}+.error`);
+    errorDiv.className = "error";
   };
 
   const autoCheckValidity = (inputField) => {
@@ -48,8 +62,16 @@ const formValidator = (function () {
       default:
         break;
     }
-    return result;
+    return !result;
   };
 
-  return { autoCheckValidity, setValidityClass };
+  return { autoCheckValidity, setInputInvalid, setInputValid, showError, hideError };
+})();
+
+const initialiseInputs = (() => {
+  let inputs = [...document.querySelectorAll("input")];
+
+  inputs
+    .filter(formValidator.autoCheckValidity)
+    .map(formValidator.setInputInvalid);
 })();
