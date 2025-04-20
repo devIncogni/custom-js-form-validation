@@ -25,18 +25,31 @@ const formValidator = (function () {
     return passRegExp.test(passInputField.value);
   };
 
-  const setValidityClass = (isValid, inputField) => {
+  const setValidityClass = (isValid, inputField, errField) => {
     inputField.className = isValid ? "valid" : "invalid";
+    errField.className = isValid? "error show" : "error hide"
   };
-
 
   const autoCheckValidity = (inputField) => {
-    switch (inputField.getAttribute("type")){
-        case text:
-            
+    let result = "Nothing assigned";
+    switch (inputField.getAttribute("type")) {
+      case "text":
+        result = isValidNameCountry(inputField);
+        break;
+      case "number":
+        result = isValidPost(inputField);
+        break;
+      case "email":
+        result = isValidEmail(inputField);
+        break;
+      case "password":
+        result = isValidPassword(inputField);
+        break;
+      default:
+        break;
     }
-    
+    return result;
   };
 
-  return { isValidNameCountry };
+  return { autoCheckValidity, setValidityClass };
 })();
